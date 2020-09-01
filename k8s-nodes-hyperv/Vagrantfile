@@ -1,0 +1,79 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+BOX_IMAGE = "centos/7"
+NODE_COUNT = 1
+NETWORK_CONFIG = "Cluster"
+
+$allowLogin = <<SCRIPT
+#!/bin/bash
+sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  # config.hostmanager.manage_host = true
+  # config.hostmanager.manage_guest = true
+  # config.hostmanager.ignore_private_ip = false
+  # config.hostmanager.include_offline = true
+  # config.vm.provision :hostmanager
+  config.vm.network "public_network", bridge: NETWORK_CONFIG
+
+  config.vm.define "master" do |sc|
+    sc.vm.hostname = "master"
+    sc.vm.box = BOX_IMAGE
+    sc.vm.provider "hyperv" do |hv|
+      hv.memory = 3072
+      hv.cpus = 2
+    end
+    sc.vm.provision "shell", inline: $allowLogin, privileged: true
+    sc.vm.provision "shell", path: "./scripts/configure-static-ip.sh", args: "192.168.200.6"
+    sc.vm.provision :reload
+
+  end
+
+  (1..NODE_COUNT).each do |i|
+    config.vm.define "node#{i}" do |sc|
+      sc.vm.box = BOX_IMAGE
+      sc.vm.hostname = "node#{i}"
+
+      sc.vm.provider "hyperv" do |hv|
+        hv.memory = 3072
+        hv.cpus = 2
+      end
+
+      sc.vm.provision "shell", inline: $allowLogin, privileged: true
+      sc.vm.provision "shell", path: "./scripts/configure-static-ip.sh", args: "192.168.200.8"
+      sc.vm.provision :reload
+
+    end
+  end
+
+  config.vm.define 'controller' do |co|
+    co.vm.box = BOX_IMAGE
+    co.vm.hostname = "controller"
+    co.vm.synced_folder "./", "/vagrant", owner: "vagrant", mount_options: ["dmode=775,fmode=600"]
+
+    co.vm.provision "shell", inline: <<-SHELL
+      sudo yum install epel-release -y -q
+      sudo yum install ansible -y -q
+      cp /vagrant/ansible.cfg /etc/ansible/ansible.cfg
+    SHELL
+
+    # co.vm.provision :ansible_local do |ansible|
+    #     ansible.playbook       = "setup_master_node.yml"
+    #     ansible.verbose        = true
+    #     ansible.install        = false
+    #     ansible.limit          = "master"
+    #     ansible.inventory_path = "inventory"
+    # end
+
+    # co.vm.provision :ansible_local do |ansible|
+    #   ansible.playbook       = "setup_worker_nodes.yml"
+    #   ansible.verbose        = true
+    #   ansible.install        = false
+    #   ansible.limit          = "nodes"
+    #   ansible.inventory_path = "inventory"
+    # end
+
+  end
+end

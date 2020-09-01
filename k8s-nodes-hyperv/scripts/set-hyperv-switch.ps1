@@ -1,0 +1,1 @@
+Get-VM "Cluster" | Get-VMNetworkAdapter | Connect-VMNetworkAdapter -SwitchName "Cluster"

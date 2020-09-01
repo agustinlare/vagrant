@@ -1,0 +1,102 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+BOX_IMAGE = "centos/7"
+NETWORK_CONFIG = "Cluster"
+
+$pasteIP = <<SCRIPT
+#!/bin/bash
+cat << EOF > /etc/sysconfig/network-scripts/ifcfg-eth0
+TYPE="Ethernet"
+BOOTPROTO="none"
+DEFROUTE="yes"
+IPV4_FAILURE_FATAL="no"
+IPV6INIT="yes"
+IPV6_AUTOCONF="yes"
+IPV6_DEFROUTE="yes"
+IPV6_FAILURE_FATAL="no"
+IPV6_ADDR_GEN_MODE="stable-privacy"
+NAME="eth0"
+DEVICE="eth0"
+ONBOOT="yes"
+IPADDR="192.168.200.8"
+PREFIX="24"
+GATEWAY="192.168.0.200"
+DNS1="192.168.0.1"
+DNS2="192.168.0.3"
+IPV6_PEERDNS="yes"
+IPV6_PEERROUTES="yes"
+IPV6_PRIVACY="no"
+EOF
+SCRIPT
+
+$allowLogin = <<SCRIPT
+#!/bin/bash
+sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+SCRIPT
+
+$dependencies = <<SCRIPT
+yum update -y -q
+yum upgrade -y -q
+yum install -y zip unzip curl wget socat ebtables git vim yum-utils -q
+SCRIPT
+
+$docker = <<SCRIPT
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum install docker-ce docker-ce-cli containerd.io -y
+systemctl start docker
+usermod -aG docker $USER
+systemctl enable docker
+SCRIPT
+
+$kubectl = <<SCRIPT
+#!/bin/bash
+cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+yum install -y kubectl
+SCRIPT
+
+$minikube = <<SCRIPT
+#!/bin/bash
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+chmod +x minikube
+sudo cp minikube /usr/local/bin && rm minikube
+SCRIPT
+
+$helm = <<SCRIPT
+#!/bin/bash
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+rm get_helm.sh
+
+SCRIPT
+
+Vagrant.configure("2") do |config|
+    config.vm.network "public_network", bridge: NETWORK_CONFIG
+
+    config.vm.define "minimaster" do |sc|
+        sc.vm.hostname = "minimaster"
+        sc.vm.box = BOX_IMAGE
+        sc.vm.provider "hyperv" do |hv|
+          hv.memory = 4096
+          hv.cpus = 2
+        end
+
+        sc.vm.provision "shell", inline: $pasteIP, privileged: true
+        sc.vm.provision "shell", inline: $allowLogin, privileged: true
+        sc.vm.provision "shell", inline: $dependencies, privileged: true
+        sc.vm.provision "shell", inline: $docker, privileged: true
+        sc.vm.provision "shell", inline: $kubectl, privileged: true
+        sc.vm.provision "shell", inline: $minikube, privileged: true
+        sc.vm.provision "shell", inline: $helm, privileged: true
+        sc.vm.provision :reload
+    end
+end

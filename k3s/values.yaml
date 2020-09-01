@@ -1,0 +1,104 @@
+# helm install adintar17 -n adintar17 -f adintar17/values.yaml gyfnexus/react-netcore-adintar17-bundle-uala-dev_webpack
+database:
+  limits:
+    memory: 2048Mi
+  local: true
+  password: Sap0r1t1
+  requests:
+    memory: 1536Mi
+  trustedConnection: false
+  userName: sa
+dontStart: false
+environment:
+  dettached: false
+  launch_environment: false
+  launch_notification_api: false
+  launch_visual_studio_code: false
+  live:
+    enabled: false
+    notificationApiPort: None
+    path: /home/efarji/reactnetcore-environment/uala_1
+    sourceCodePath: /home/efarji/git/development
+    watch: false
+  metaversion:
+    id: 3523a182-c21e-4d58-b1e2-a38f58bc638a
+    lastRelease: 37fbeee4-78a1-498f-b246-a48685c0f65c
+    tags:
+      atlas: 304dd7ee8a3baa15957211cd9bab387c7a698b51
+      concierge: ceb1fa8ff5981b4a7d241fe828192b85f3e6f19d
+      dataproviders: a912f4e4c7b7e9484c7b91a740d3b6a92f4157a2
+      engine1: d50ec585b8d45f74cdcf69d0f1889b76de94a49b
+      logs: 7f6e78e467cd666ec11bfddebf2abc2ca3a928eb
+      portico: 8bac95a35eda7cbbd0c237c9c60f5b4840967c1e
+      sagas: 801a0a91002f51402b77a5bb8a4af62efeddc02c
+      tarjetas: 3375303090e6493996d5a0ebabe6008f41ea3688
+  name: DEV_WEBPACK
+kubernetes:
+  dockerRegistry: 501853673872.dkr.ecr.us-east-1.amazonaws.com
+  registryLoginData: eyJhdXRocyI6IHsiNTAxODUzNjczODcyLmRrci5lY3IudXMtZWFzdC0xLmFtYXpvbmF3cy5jb20iOiB7ImF1dGgiOiAiUVZkVE9tVjVTbmRaV0d4ellqSkdhMGxxYjJsTmJscFBZVlZrVVdWck9YVk1la1pOV2tSUk5VMHliekZYYlVWM1kydE5NbU5YV2xWTldGSndUVEZXYmxRd1pHRlhhM0I0VW14R05WcEhkRVJWTTA1YVQxaFZlazFWWkZoaGJWRjVZa2QwVDJKc1VsZE9hMHB4VTBoU1JGbHRkRE5aVjBaWldXMUtjRTlJVVRGamJteFVZa1pWTW1SdVRrcFdhazE2VjBaVmRsSnFRWFpOUmxvMldWZE9XbUZ0TVhOT1IxbDNXbGhzWVdORlZubGFNRll5WTFjMWFsUkZVbkZXUlZwb1RtMXNORmxYV2sxYVJFNVFWbTVXZFZSdE5YVlRSbEo0VjJ0b1ExSXlaM2hPZWs1aFYwaHNUVTVJVmpCWlYxcHNUVWhzY21OdVVsZGxSVlV6WW10a1VVMUVWakZaTW14WVUyNWFXbUV4Y0VKak1FcDRVbFJhUkUxc1FtdGlNMlJXVWpOQmVFNXBkRFZoVTNSWFQwUm9ZV1JxYUUxbGJrbzFUVzAwTlZaWE9VZGpWRVpSVTFWMGMxbDZZM1poU0dnMldWaE9VVnBZWkd4aVZVNU1UMWRHYjJWdVRsZFhXR3gyWkVoWk1WcFhVbWxqVkZaYVlsZE9NMU5UT0hsbGJtUkNWbTVHYjFOc1RuWmxWV2hzV2xWYU5sUXdNVEJOV0U1UlREQktOVTVEY3pCbFZVcElXVEZyTUU5WVNUUlNNSFJaWW01T1drd3pUa2ROUkVKVlZGUm9hMUpYTlVsUk1VSk9UVlZ3UjJGNU9WRlZWbFpPWXpKak1WTlZiRmxWTWxaTVRWUldkVmRyWkhGUmJscHJaVmhhVEZFelpEVk5SVkl5VDFSS00xWkdSa2RWUld4WVZESXhjMlJIVlhoa01ERk5WakJPZFZOdVpFUlJVemxZVTNrNWVXRXliREpTTWxaWFltdEdkMDlYUmpCUFJFcEhWV3RrTms1SVRsQlpNazQwVlhwV1RWUjZUbTlWYlZZMVZsUktVRk5VVWxWaU1rNURZek5HYmxWVVpIWlJWRkphWkd0YVUxcHVUbnBQU0d4TVUyNXdTRlpJV2pGVU1VWmhWVEpzYzFkdWEzWlZNMVp3VlZWa2RtSnNXWHBoU0ZaNFRVUmpOVTB3VmsxVWJtTjRaR3RPVDFaVldsQldSMmh5VTI1T2EyRlRjelJSVTNSdllucFJlV05ZU2s1U1JGSlVWMGRhZDFsV1VrMWhSR2g1VmxkYVdGcEZZM0pQUm14cFRqQTFjMDlGVm05T1YyaDJZMVp3VlUxR1dsZFZhbFphVGxSQ2JWTXlTbTlWVkZaTldsYzFXRTVEZEhwUmJXaENaVlZzY1ZONlpFUlRNV1JoVTIxc2NtTldUbGxXYTJRMlZFYzFUV0pJVmtsamFUbFRaREZrYVZaSWNFNVVWMDVwWkRCRmRrc3pWazFaVlVweVlrWkNRbFF5T1RWTmFrcHhVVmRGTTFVd2VFTlJhMDV4VkVjMVVsWjZWbGRVTUZVMVVXMTBkMkl4V2pKVlIxWk9WVzFzVm1ReVZrNVJhMUYzVDFoS1JWUkhTWGxTTTBKR1ZsUkdVV1J0ZERaaU0xSm9UVlJzVkZkVVVuZFpWV1JWVFVSR1ZsUlZSbWhhTTBaMVdtMUdUV014YkhWVlJHeGFWVzA1Tm1FeWNHNWlWMXBKWTBkd05WTkZaekJrUlhnd1dWZEtSbG95TlcxTk1qbG9VWHBXVkU5RldtRlpNMUp2VWxjMU1tUklSbFppYlhocVltMXdhbEpVUmtKUFJscEtTekp3YVdKSFVuTmFWV3hTU3pOc05VNHhRa2RqYlhocllWaHdhVk42YURCaU1WcHFUbFJvTmxZd1RsVlNla3B2VTNwa2JsVkhSazVTUlRVMVdWVTVXRmRGWkVsVU1VSnNWVVZuTlZGdVpIWk5SbXhTVFRGa2ExbFlVVE5XVjI5NlZYcGtVR0ZYV1hKUk0xSjFZVmRHVFdSNlRrdE5WVEZKVVZVeGRXUXljRmhSYm1jMVZFaENlV1ZGZUZoVmJHZDNZVWhvY0ZkRlZuaGhhbFpUVERCU1RsWnVhSEJqYWtKc1lrY3hVV1JyVGxGa1Yyd3lUREphTUU1VlZrdE5ia1pVVG5wVk1WRlZjekZWYTFKMVl6TkNTbFV5VmxKVU1XeHFUa2hvYTFwclNrNWtWVGxVVlRCS2RFNTZXak5sYWxZMVZVVjBkVkl3Um5kWFZFMTRUMVJTZDFSRll6QlNibVJLWkhwU05HVlhlR0ZMTTFacllsVTVSRTVyZUd0TlJsbDJVMFJPTTFvelRteGlNbEl5V2pOb1RGWkZaSFJhVmtwMFZGZEtObU13VWxGaFJUZ3pZMFU1UWxwWWFIVlNNSGhZWWxoT1ZVMVljREpSYXpsaFpFUnJlRlpJWjNsU2JWWkNaVVV4YkZWc2JGaGFWVFZ1VDFSV01GVXdTa2xpZWxwTlRUQjRWVk5yVGxGTE1HdDJWVVpHYlUwd05WbFdlWFJhVTFVNWNtVlZPV3RsVkVwVVpXdDRhRk50TlhaVFZsWktZMjFvZEU1WFduaGxiVGx5VVcxb05WTlVWWFpoYlZwV1ZsTTVWa3g2VG05U01HeEpWakJTVDFreVZraExNV3gwVlRCT01HRkZhRmxrTTFZd1lsWlplRTlYU2tsV00xa3hWbXRqTldOSFVubE5NblJJWTFWMGJGUnNUalpSYWtwaFpGaGtRbE5zVG05UFNHZ3hZVmRqT1ZCVFNYTkpiVkpvWkVkR2NscFlhMmxQYVVwQ1ZWVldRMUZWYUc5a01qQjNWMWRHU2xVd2NHeFZibEpMWWxSV2RVMVZZekprV0Vac1dsZDBXV1JYT1ZsWFJrSnNUbFpXUjFreVZUVlZia1UwVEhwRk1HUXdSa0pSVldjd1pESmFRbGRWY0V4aU1YQktZVWhhYWxSclJsSlpNR1IyVW5wb00xbHNSa3BSYTBaRlVXMDVRMW95ZEhoaFIzUndVbnBzTTAxRlNrTmtNRll6VTBka1dsTnNiRXBYYTJ4Q1ZqRldSVkZyUmtaa1ZURkRVbFZXUlZWRk9VbFNWMDR3WkRCNFNXSlVRbmxoYXpGcFRqQkdTbEZyVmtwUlZHUnZWVEpzVFZkdFJUVlJWMUpoWWpKMGNsUjZUak5hVms1MVlrWmFTbVZ1VWxsbGExbDJZVEZTUzA1RlNucE5NbkJDV2xScmVrMXBkSFJpTWtaM1pFWnNSbE14YUVKV1dGcHRZekI0ZW1GR1JqTlhiSEJoVG0xYWMxRXlkRXhhV0VwWlZYcGtNVlF5WnpSUVUwbHpTVzVhYkdOdVRuQmlNalJwVDJsSmVVbHBkMmxrU0d4M1dsTkpOa2xyVWtKV1JVWm1VekJXV2tscGQybGFXR2gzWVZoS2FHUkhiSFppYVVrMlRWUlZOVTVVUVRKTmVtTTBUMGd3UFE9PSJ9fX0=
+  atlas:
+    logLevel: Warn
+    maxReplicas: 1
+  concierge:
+    limits:
+      memory: 512Mi
+    maxReplicas: 1
+    requests:
+      memory: 64Mi
+  engine1:
+    limits:
+      memory: 512Mi
+    logLevel: Info
+    maxReplicas: 1
+    requests:
+      memory: 64Mi
+  logs:
+    limits:
+      memory: 512Mi
+    localEngine1:
+      enabled: false
+    logLevel: Info
+    maxReplicas: 1
+    requests:
+      memory: 64Mi
+  portico:
+    limits:
+      memory: 512Mi
+    logLevel: Warn
+    maxReplicas: 1
+    requests:
+      memory: 64Mi
+  sagas:
+    limits:
+      memory: 512Mi
+    logLevel: Info
+    maxReplicas: 1
+    requests:
+      memory: 64Mi
+  tarjetas:
+    logLevel: Info
+    maxReplicas: 1
+metrics:
+  enabled: false
+nginx-ingress:
+  controller:
+    autoscaling:
+      enabled: false
+  tcp:
+    "1433": '{{.Release.Namespace }}/sql:1433'
+    "5672": '{{.Release.Namespace }}/rabbit:5672'
+rabbitmq:
+  auth:
+    erlangCookie: a1234567890123456789012345678901
+    password: admin
+    username: admin
+  persistence:
+    enabled: false
+  replicaCount: 1
+tenant: uala
+tenant_metaversion_id: 3523a182-c21e-4d58-b1e2-a38f58bc638a
+token:
+  audience: GyFAudience
+  expirationTime: 30
+  issuer: GyFIssuer
+  signingKey: __signingkey_123

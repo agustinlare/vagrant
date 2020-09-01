@@ -1,0 +1,88 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+BOX_IMAGE = "bento/ubuntu-16.04"
+NETWORK_CONFIG = "Cluster"
+
+$pasteIP = <<SCRIPT
+#!/bin/bash
+cat << EOF > /etc/network/interfaces
+source /etc/network/interfaces.d/*
+auto lo
+iface lo inet loopback
+# The primary network interface
+auto eth0
+iface eth0 inet static
+    address 192.168.200.8
+    netmask 255.255.255.0
+    gateway 192.168.0.200
+pre-up sleep 2
+EOF
+SCRIPT
+
+$allowLogin = <<SCRIPT
+#!/bin/bash
+sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+SCRIPT
+
+$dependencies = <<SCRIPT
+#!/bin/bash
+# apt-get upgrade -y -q
+apt-get update -y -q
+apt-get install htop -y -q
+SCRIPT
+
+$awsconfiguration = <<SCRIPT
+#!/bin/bash
+mkdir /home/vagrant/.aws/
+apt-get install awscli -y -q
+cat << EOF > /home/vagrant/.aws/credentials
+[default]
+aws_access_key_id = AKIAXJWGPLGIJE3KDLUT
+aws_secret_access_key = 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
+EOF
+cat << EOF > /home/vagrant/.aws/config
+[default]
+region = us-east-1
+output = json
+EOF
+SCRIPT
+
+$k3s = <<SCRIPT
+#!/bin/bash
+export K3S_KUBECONFIG_MODE="644"
+export INSTALL_K3S_EXEC="--disable servicelb --disable traefik --bind-address=192.168.200.6 --tls-san 192.168.200.6"
+# curl -sfL https://get.k3s.io | sh -
+curl -sfL https://get.k3s.io | sh -s - --docker
+SCRIPT
+
+$helm = <<SCRIPT
+# Install
+curl https://helm.baltorepo.com/organization/signing.asc | sudo apt-key add -
+sudo apt-get install apt-transport-https --yes
+echo "deb https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+sudo apt-get update
+sudo apt-get install helm
+SCRIPT
+
+Vagrant.configure("2") do |config|
+    config.vm.network "public_network", bridge: NETWORK_CONFIG
+
+    config.vm.define "k3scito" do |sc|
+        sc.vm.hostname = "k3scito"
+        sc.vm.box = BOX_IMAGE
+        sc.vm.provider "hyperv" do |hv|
+          hv.memory = 4096
+          hv.cpus = 2
+        end
+
+        # sc.vm.provision "shell", inline: $pasteIP, privileged: true
+        sc.vm.provision "shell", inline: $allowLogin, privileged: true
+        sc.vm.provision "shell", inline: $dependencies, privileged: true
+        sc.vm.provision "shell", inline: $awsconfiguration, privileged: true
+        sc.vm.provision "shell", path: "docker.sh", privileged: true
+        sc.vm.provision "shell", inline: $k3s, privileged: true
+        sc.vm.provision "shell", inline: $helm, privileged: true
+        # sc.vm.provision :reload
+    end
+end

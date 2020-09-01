@@ -1,0 +1,29 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+BOX_IMAGE = "centos/7"
+
+$allowLogin = <<SCRIPT
+#!/bin/bash
+sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+SCRIPT
+
+# Vagrant.require_plugin "vagrant-reload"
+# required_plugin depcreated, use vagrant plugin install vagrant-reload
+
+Vagrant.configure("2") do |config|
+    config.vm.network "public_network", ip: "192.168.200.103"
+      
+    config.vm.define "l012-temp" do |sc|
+        sc.vm.hostname = "l012-temp"
+        sc.vm.box = BOX_IMAGE
+
+        sc.vm.provider "virtualbox" do |hv|
+          hv.memory = 4096
+          hv.cpus = 2
+        end
+
+        sc.vm.provision "shell", inline: $allowLogin, privileged: true
+        sc.vm.provision :reload
+    end
+end
