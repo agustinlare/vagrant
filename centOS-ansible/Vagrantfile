@@ -1,0 +1,25 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+BOX_IMAGE = "centos/7"
+PROVIDER = "virtualbox" # or hyperv
+NETWORK_CONFIG = "Hyper-V Virtual Ethernet Adapter #2"
+
+Vagrant.configure("2") do |config|
+    config.vm.network "public_network", bridge: NETWORK_CONFIG, ip: "192.168.0.202"
+    
+    config.vm.define "ansible-machine" do |sc|
+        sc.vm.hostname = "ansible"
+        sc.vm.box = BOX_IMAGE
+               
+        sc.vm.provider PROVIDER do |hv|
+            hv.memory = 4096
+            hv.cpus = 2
+        end
+
+        sc.vm.provision "shell", path:  "../scripts/nopass-login.sh", privileged: true
+        sc.vm.provision "shell", path: "../scripts/ansible-centos.sh", privileged: true
+        sc.vm.provision "file", source: "../share/inventory", destination: "/home/vagrant/inventroy"
+        sc.vm.provision "file", source: "../share/playbook.yml", destination: "/home/vagrant/playbook.yaml"        
+    end
+end
