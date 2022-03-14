@@ -38,8 +38,8 @@ mkdir /home/vagrant/.aws/
 apt-get install awscli -y -q
 cat << EOF > /home/vagrant/.aws/credentials
 [default]
-aws_access_key_id = AKIAXJWGPLGIJE3KDLUT
-aws_secret_access_key = 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
+aws_access_key_id = <ACCESS_KEY>
+aws_secret_access_key = <ACCESS_SECRET_KEY>
 EOF
 cat << EOF > /home/vagrant/.aws/config
 [default]
